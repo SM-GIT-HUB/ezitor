@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react"
 import { THEMES } from "../../_constants"
 import { AnimatePresence, motion } from "framer-motion"
 import { CircleOff, Cloud, Github, Laptop, Moon, Palette, Sun } from "lucide-react"
+import useMounted from "@/hooks/useMounted"
 
 
 const THEME_ICONS: Record<string, React.ReactNode> = {
@@ -20,11 +21,9 @@ function ThemeSelector() {
   const { theme, setTheme } = useCodeEditorStore();
   const dropDownRef = useRef<HTMLDivElement>(null);
   const currentTheme = THEMES.find((t) => t.id == theme);
-  const [isMounted, setMounted] = useState(false);
+  const mounted = useMounted();
 
   useEffect(() => {
-    setMounted(true);
-    
     function handleClickOutside(event: MouseEvent)
     {
       if (dropDownRef.current && !dropDownRef.current.contains(event.target as Node)) {
@@ -36,7 +35,7 @@ function ThemeSelector() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [])
 
-  if (!isMounted) {
+  if (!mounted) {
     return null;
   }
 
