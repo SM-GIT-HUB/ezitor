@@ -9,13 +9,8 @@ function getInitialState()
     if (typeof window == "undefined") {
         return {
             language: "javascript",
-            // output: string,
-            // isRunning: boolean,
-            // error: string | null,
             theme: "vs-dark",
             fontSize: 16,
-            // editor: Monaco | null,
-            // executionResult: ExecutionResult | null
         }
     }
 
@@ -31,10 +26,10 @@ function getInitialState()
 }
 
 export const useCodeEditorStore = create<CodeEditorState>((set, get) => {
-    const initialState = getInitialState();
-    
+    const states = getInitialState();
+
     return {
-        ...initialState,
+        ...states,
         output: "",
         isRunning: false,
         error: null,

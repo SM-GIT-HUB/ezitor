@@ -369,7 +369,7 @@ export const THEME_DEFINITONS = {
       "editor.inactiveSelectionBackground": "#264f7855",
     },
   },
-  "monokai": {
+  monokai: {
     base: "vs-dark",
     inherit: true,
     rules: [
