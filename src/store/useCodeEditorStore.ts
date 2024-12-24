@@ -3,7 +3,6 @@ import { create } from "zustand"
 import { Monaco } from "@monaco-editor/react"
 import { CodeEditorState } from "@/types"
 
-
 function getInitialState()
 {
     if (typeof window == "undefined") {
@@ -21,7 +20,7 @@ function getInitialState()
     return {
         language: savedLanguage,
         theme: savedTheme,
-        fontSize: savedFontSize
+        fontSize: Number(savedFontSize)
     }
 }
 
@@ -42,7 +41,7 @@ export const useCodeEditorStore = create<CodeEditorState>((set, get) => {
             const savedCode = localStorage.getItem(`editor-code-${get().language}`);
 
             if (savedCode) {
-                editor.setValue(savedCode);
+                editor?.setValue(savedCode);
             }
 
             set({ editor });
