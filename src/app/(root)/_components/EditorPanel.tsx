@@ -15,7 +15,7 @@ import useMounted from "@/hooks/useMounted"
 function EditorPanel() {
   const clerk = useClerk();
   const [isShareDialogOpen, setIsShareDialogOpen] = useState(false);
-  const { language, theme, fontSize, editor, setFontSize, setEditor } = useCodeEditorStore();
+  const { language, theme, fontSize, editor, setFontSize, setEditor, resetOutput } = useCodeEditorStore();
   const mounted = useMounted();
 
   useEffect(() => {
@@ -42,6 +42,8 @@ function EditorPanel() {
     if (editor) {
       editor.setValue(defaultCode);
     }
+
+    resetOutput();
 
     localStorage.setItem(`editor-code-${language}`, "");
   }
@@ -84,6 +86,7 @@ function EditorPanel() {
             {/* Font Size Slider */}
             <div className="flex items-center gap-3 px-3 py-2 bg-[#1e1e2e] rounded-lg ring-1 ring-white/5">
               <TypeIcon className="size-4 text-gray-400" />
+              
               <div className="flex items-center gap-3">
                 <input type="range" min="12" max="24" value={fontSize} onChange={(e) => handleFontSizeChange(parseInt(e.target.value))}
                 className="w-20 h-1 bg-gray-600 rounded-lg cursor-pointer" />
@@ -115,29 +118,29 @@ function EditorPanel() {
           {
             clerk.loaded && (
               <Editor height="600px" language={LANGUAGE_CONFIG[language].monacoLanguage} onChange={handleEditorChange}
-                theme={theme}
-                beforeMount={defineMonacoThemes}
-                onMount={(ed) => setEditor(ed)}
-                options={{
-                  minimap: { enabled: false },
-                  fontSize,
-                  automaticLayout: true,
-                  scrollBeyondLastLine: false,
-                  padding: { top: 16, bottom: 16 },
-                  renderWhitespace: "selection",
-                  fontFamily: '"Fira Code", "Cascadia Code", Consolas, monospace',
-                  fontLigatures: true,
-                  cursorBlinking: "smooth",
-                  smoothScrolling: true,
-                  contextmenu: true,
-                  renderLineHighlight: "all",
-                  lineHeight: 1.6,
-                  letterSpacing: 0.5,
-                  roundedSelection: true,
-                  scrollbar: {
-                    verticalScrollbarSize: 8,
-                    horizontalScrollbarSize: 8,
-                  }
+              theme={theme}
+              beforeMount={defineMonacoThemes}
+              onMount={(ed) => setEditor(ed)}
+              options={{
+                minimap: { enabled: false },
+                fontSize,
+                automaticLayout: true,
+                scrollBeyondLastLine: false,
+                padding: { top: 16, bottom: 16 },
+                renderWhitespace: "selection",
+                fontFamily: '"Fira Code", "Cascadia Code", Consolas, monospace',
+                fontLigatures: true,
+                cursorBlinking: "smooth",
+                smoothScrolling: true,
+                contextmenu: true,
+                renderLineHighlight: "all",
+                lineHeight: 1.6,
+                letterSpacing: 0.5,
+                roundedSelection: true,
+                scrollbar: {
+                  verticalScrollbarSize: 8,
+                  horizontalScrollbarSize: 8,
+                }
               }} />
             )
           }
