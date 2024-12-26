@@ -9,7 +9,7 @@ function ShareSnippetDialog({ onClose }: { onClose: () => void }) {
   const [title, setTitle] = useState("");
   const [isSharing, setIsSharing] = useState(false);
   const { language, getCode } = useCodeEditorStore();
-//   const createSnippet = useMutation(api.snippets.createSnippet);
+  const createSnippet = useMutation(api.snippets.createSnippet);
 
   async function handleShare(e: React.FormEvent)
   {
@@ -20,7 +20,7 @@ function ShareSnippetDialog({ onClose }: { onClose: () => void }) {
     try {
       const code = getCode();
 
-    //   await createSnippet({ title, language, code });
+      await createSnippet({ title, language, code });
 
       onClose();
       setTitle("");
@@ -53,8 +53,8 @@ function ShareSnippetDialog({ onClose }: { onClose: () => void }) {
             </label>
 
             <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)}
-            className="w-full px-3 py-2 bg-[#181825] border border-[#313244] rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter snippet title" required />
+            className="w-full px-3 py-2 bg-[#181825] border border-[#313244] rounded-lg text-white focus:outline-none
+            focus:ring-2 focus:ring-blue-500" placeholder="Enter snippet title" required />
           </div>
 
           <div className="flex justify-end gap-3">
