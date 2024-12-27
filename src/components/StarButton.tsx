@@ -2,13 +2,13 @@
 
 import { useAuth } from '@clerk/nextjs'
 import { Id } from '../../convex/_generated/dataModel'
-import { useMutation, useQuery } from 'convex/react';
-import { api } from '../../convex/_generated/api';
-import toast from 'react-hot-toast';
-import { Star } from 'lucide-react';
+import { useMutation, useQuery } from 'convex/react'
+import { api } from '../../convex/_generated/api'
+import toast from 'react-hot-toast'
+import { Star } from 'lucide-react'
 
 function StarButton({ snippetId }: { snippetId: Id<"snippets"> }) {
-  const isSignedIn = useAuth();
+  const { isSignedIn } = useAuth();
   const isStarred = useQuery(api.snippets.isSnippetStarred, { snippetId });
   const starCount = useQuery(api.snippets.getSnippetStarCount, { snippetId });
   const starSnippet = useMutation(api.snippets.starSnippet);
