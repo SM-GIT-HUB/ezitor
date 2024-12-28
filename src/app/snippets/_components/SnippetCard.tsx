@@ -25,15 +25,15 @@ function SnippetCard({ snippet }: { snippet: Snippet }) {
     setIsDeleting(true);
 
     try {
-        await deleteSnippet({ snippetId: snippet._id });
-        toast.success("Snippet deleted");
+      await deleteSnippet({ snippetId: snippet._id });
+      toast.success("Snippet deleted");
     }
     catch(err: any) {
-        console.log("error in delete-snippet", err.message);
-        toast.error("Error deleting snippet");
+      console.log("error in delete-snippet", err.message);
+      toast.error("Error deleting snippet");
     }
     finally {
-        setIsDeleting(false);
+      setIsDeleting(false);
     }
   }
 
@@ -66,7 +66,7 @@ function SnippetCard({ snippet }: { snippet: Snippet }) {
                   <div className="flex items-center gap-2 text-xs text-gray-500">
                     <Clock className="size-3" />
 
-                    {new Date(snippet._creationTime).toLocaleDateString()}
+                    {new Date(snippet._creationTime).toLocaleDateString("en-IN")}
                   </div>
                 </div>
               </div>
@@ -74,19 +74,19 @@ function SnippetCard({ snippet }: { snippet: Snippet }) {
                 <StarButton snippetId={snippet._id} />
 
                 {
-                    user?.id === snippet.userId && (
-                        <div className="z-10" onClick={(e) => e.preventDefault()}>
-                          <button onClick={handleDelete} disabled={isDeleting}
-                          className={`group flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all duration-200 ${isDeleting? cls1 : cls2}`} >
-                            {
-                                isDeleting?
-                                <div className="size-3.5 border-2 border-red-400/30 border-t-red-400 rounded-full animate-spin" />
-                                :
-                                <Trash2 className="size-3.5" />
-                            }
-                          </button>
-                        </div>
-                    )
+                  user?.id === snippet.userId && (
+                    <div className="z-10" onClick={(e) => e.preventDefault()}>
+                      <button onClick={handleDelete} disabled={isDeleting}
+                      className={`group flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all duration-200 ${isDeleting? cls1 : cls2}`} >
+                        {
+                          isDeleting?
+                          <div className="size-3.5 border-2 border-red-400/30 border-t-red-400 rounded-full animate-spin" />
+                          :
+                          <Trash2 className="size-3.5" />
+                        }
+                      </button>
+                    </div>
+                  )
                 }
               </div>
             </div>
