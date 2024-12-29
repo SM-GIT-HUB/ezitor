@@ -7,6 +7,7 @@ import { api } from "../../../../../convex/_generated/api"
 import toast from "react-hot-toast"
 import { MessageSquare } from "lucide-react"
 import Comment from "./Comment"
+import CommentForm from "./CommentForm"
 
 function Comments({ snippetId, comments }: { snippetId: Id<"snippets">, comments: CommentsType[] }) {
   const { user } = useUser();
@@ -22,6 +23,7 @@ function Comments({ snippetId, comments }: { snippetId: Id<"snippets">, comments
 
     try {
       await addComment({ snippetId, content });
+      toast.success("Comment added");
     }
     catch(err: any) {
       console.log("error in submitting comment", err.message);
@@ -38,6 +40,7 @@ function Comments({ snippetId, comments }: { snippetId: Id<"snippets">, comments
 
     try {
       await deleteComment({ commentId });
+      toast.success("Your comment was deleted");
     }
     catch(err: any) {
       console.log("error in deleting comment", err.message);
@@ -59,8 +62,7 @@ function Comments({ snippetId, comments }: { snippetId: Id<"snippets">, comments
 
       <div className="p-6 sm:p-8">
         {
-        //   user? <CommentForm onSubmit={handleSubmitComment} isSubmitting={isSubmitting} /> :
-        user? "Comment form" :
+          user? <CommentForm onSubmit={handleSubmitComment} isSubmitting={isSubmitting} /> :
           <div className="bg-[#0a0a0f] rounded-xl p-6 text-center mb-8 border border-[#ffffff0a]">
             <p className="text-[#808086] mb-4">Sign in to join the discussion</p>
             <SignInButton mode="modal">
@@ -75,13 +77,9 @@ function Comments({ snippetId, comments }: { snippetId: Id<"snippets">, comments
         <div className="space-y-6">
         {
           comments.map((comment) => (
-            <Comment
-              key={comment._id}
-              comment={comment}
-              onDelete={handleDeleteComment}
-              isDeleting={deletingCommentId === comment._id}
-              currentUserId={user?.id || ""} />
-            ))
+            <Comment key={comment._id} comment={comment} onDelete={handleDeleteComment}
+            isDeleting={deletingCommentId === comment._id} currentUserId={user?.id || ""} />
+          ))
         }
         </div>
       </div>

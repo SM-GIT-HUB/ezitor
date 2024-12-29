@@ -1,6 +1,7 @@
 import { CommentsType } from "@/types"
 import { Id } from "../../../../../convex/_generated/dataModel"
 import { Trash2Icon, UserIcon } from "lucide-react"
+import CommentContent from "../CommentContent"
 
 interface CommentProps {
   comment: CommentsType;
@@ -22,7 +23,7 @@ function Comment({ comment, onDelete, isDeleting, currentUserId }: CommentProps)
             <div className="min-w-0">
               <span className="block text-[#e1e1e3] font-medium truncate">{comment.username}</span>
               <span className="block text-sm text-[#808086]">
-                {new Date(comment._creationTime).toLocaleDateString()}
+                {new Date(comment._creationTime).toLocaleDateString("en-IN")}
               </span>
             </div>
           </div>
@@ -37,7 +38,7 @@ function Comment({ comment, onDelete, isDeleting, currentUserId }: CommentProps)
           }
         </div>
 
-        {/* <CommentContent content={comment.content} /> */}
+        <CommentContent content={comment.content} />
       </div>
     </div>
   )
