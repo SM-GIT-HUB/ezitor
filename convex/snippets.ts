@@ -131,7 +131,7 @@ export const starSnippet = mutation({
         else
         {
             await ctx.db.insert("stars", {
-                userId: user._id,
+                userId: user.userId,
                 snippetId: args.snippetId
             })
         }
@@ -220,5 +220,28 @@ export const deleteComment = mutation({
         }
 
         await ctx.db.delete(args.commentId);
+    }
+})
+
+export const getStarredSnippets = query({
+    handler: async(ctx) => {
+        const identity = await ctx.auth.getUserIdentity();
+
+        if (!identity) {
+            throw new Error("Not authenticated");
+        }
+
+        const [user, stars] = await Promise.all([
+            ctx.db.query("users").withIndex("by_user_id").filter((q) => q.eq(q.field("userId"), identity.subject)).first(),
+            ctx.db.query("stars").withIndex("by_user_id").filter((q) => q.eq(q.field("userId"), identity.subject)).collect()
+        ])
+
+        if (!user) {
+            throw new Error("User not found");
+        }
+
+        const snippets = await Promise.all(stars.map((s) => ctx.db.get(s.snippetId)));
+
+        return snippets.filter((snippet) => snippet != null);
     }
 })
