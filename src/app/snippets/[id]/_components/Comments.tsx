@@ -1,4 +1,4 @@
-import { SignInButton, useUser } from "@clerk/nextjs"
+import { useUser } from "@clerk/nextjs"
 import { Id } from "../../../../../convex/_generated/dataModel"
 import { useState } from "react"
 import { CommentsType } from "@/types"
@@ -8,6 +8,7 @@ import toast from "react-hot-toast"
 import { MessageSquare } from "lucide-react"
 import Comment from "./Comment"
 import CommentForm from "./CommentForm"
+import LoginButton from "@/components/LoginButton"
 
 function Comments({ snippetId, comments }: { snippetId: Id<"snippets">, comments: CommentsType[] }) {
   const { user } = useUser();
@@ -63,14 +64,9 @@ function Comments({ snippetId, comments }: { snippetId: Id<"snippets">, comments
       <div className="p-6 sm:p-8">
         {
           user? <CommentForm onSubmit={handleSubmitComment} isSubmitting={isSubmitting} /> :
-          <div className="bg-[#0a0a0f] rounded-xl p-6 text-center mb-8 border border-[#ffffff0a]">
+          <div className="bg-[#0a0a0f] rounded-xl p-6 text-center flex flex-col items-center justify-center mb-8 border border-[#ffffff0a]">
             <p className="text-[#808086] mb-4">Sign in to join the discussion</p>
-            <SignInButton mode="modal">
-
-            <button className="px-6 py-2 bg-[#3b82f6] text-white rounded-lg hover:bg-[#2563eb] transition-colors">
-              Sign In
-            </button>
-            </SignInButton>
+            <LoginButton mode="modal"/>
           </div>
         }
 

@@ -49,7 +49,7 @@ function NavigationHeader() {
             </Link>
           </div>
 
-          {/* right rection */}
+          {/* right section */}
           <div className="flex items-center gap-4">
             <SignedOut>
               <Link href="/pricing" className="flex items-center gap-2 px-4 py-1.5 rounded-lg border border-amber-500/20 hover:border-amber-500/40

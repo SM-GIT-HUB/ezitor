@@ -62,7 +62,9 @@ function EditorPanel() {
   }
 
   if (!mounted) {
-    return null;
+    return (
+      <EditorPanelSkeleton/>
+    )
   }
 
   return (
@@ -128,7 +130,7 @@ function EditorPanel() {
                 scrollBeyondLastLine: false,
                 padding: { top: 16, bottom: 16 },
                 renderWhitespace: "selection",
-                fontFamily: '"Fira Code", "Cascadia Code", Consolas, monospace',
+                fontFamily: 'monospace',
                 fontLigatures: true,
                 cursorBlinking: "smooth",
                 smoothScrolling: true,
@@ -145,7 +147,7 @@ function EditorPanel() {
             )
           }
 
-          {!clerk.loaded && <EditorPanelSkeleton />}
+          {(!clerk.loaded) && <EditorPanelSkeleton />}
         </div>
       </div>
       {isShareDialogOpen && <ShareSnippetDialog onClose={() => setIsShareDialogOpen(false)} />}

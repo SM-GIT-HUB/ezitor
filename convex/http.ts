@@ -2,7 +2,7 @@ import { httpRouter } from "convex/server"
 import { httpAction } from "./_generated/server"
 import { WebhookEvent } from "@clerk/nextjs/server"
 import { Webhook } from "svix"
-import { api } from "./_generated/api"
+import { api, internal } from "./_generated/api"
 
 const http = httpRouter();
 
@@ -62,6 +62,45 @@ http.route({
         }
 
         return new Response("Webhook processed successfully", { status: 200 });
+    })
+})
+
+http.route({
+    path: "/lemon-squeezy-webhook",
+    method: "POST",
+    handler: httpAction(async(ctx, req) => {
+        const payloadString = await req.text();
+        const signature = req.headers.get("X-Signature");
+
+        if (!signature) {
+            return new Response("Missing X-Signature header", { status: 400 });
+        }
+
+        try {
+            const payload = await ctx.runAction(internal.lemonSqueezy.verifyWebhook, { payload: payloadString, signature });
+
+            if (payload.meta.event_name == "order_created")
+            {
+                const { data } = payload;
+
+                const { success } = await ctx.runMutation(api.users.upgradeToPro, {
+                    email: data.attributes.user_email.toString(),
+                    lemonSqueezyCustomerId: data.attributes.customer_id.toString(),
+                    lemonSqueezyOrderId: data.id.toString(),
+                    amount: data.attributes.total.toString()
+                })
+
+                if (success) {
+                    //we can send an email
+                }
+            }
+            
+            return new Response("Webhook processed successfully", { status: 200 });
+        }
+        catch(err: any) {
+            console.log("webhook error: ", err.message);
+            return new Response("Error processing webhook", { status: 500 });
+        }
     })
 })
 

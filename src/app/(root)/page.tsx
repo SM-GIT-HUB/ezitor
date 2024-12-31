@@ -2,7 +2,7 @@ import EditorPanel from "@/app/(root)/_components/EditorPanel"
 import Header from "@/app/(root)/_components/Header"
 import OutputPanel from "@/app/(root)/_components/OutputPanel"
 
-async function Home() {
+function Home() {
   return (
     <div className="min-h-screen font-[family-name:var(--font-geist-sans)]">
       <div className="max-w-[1800px] mx-auto p-4">

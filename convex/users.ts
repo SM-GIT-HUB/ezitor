@@ -84,3 +84,32 @@ export const getUserStats = query({
         }
     }
 })
+
+export const upgradeToPro = mutation({
+    args: {
+        email: v.string(),
+        lemonSqueezyCustomerId: v.string(),
+        lemonSqueezyOrderId: v.string(),
+        amount: v.string()
+    },
+    handler: async(ctx, args) => {
+        const user = await ctx.db.query("users").filter((q) => q.eq(q.field("email"), args.email)).first();
+
+        if (!user) {
+            throw new Error("User not found");
+        }
+
+        console.log(user);
+
+        await ctx.db.patch(user._id, {
+            isPro: true,
+            lemonSqueezyCustomerId: args.lemonSqueezyCustomerId,
+            lemonSqueezyOrderId: args.lemonSqueezyOrderId,
+            proSince: Date.now()
+        })
+
+        console.log("done");
+
+        return { success: true };
+    }
+})
