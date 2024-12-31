@@ -19,7 +19,7 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "Ezitor",
-  description: "An online code editor for coders",
+  description: "An online code editor for coders"
 };
 
 export default function RootLayout({
