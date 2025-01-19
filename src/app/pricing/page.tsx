@@ -1,7 +1,6 @@
 import { currentUser } from "@clerk/nextjs/server"
 import { ConvexHttpClient } from "convex/browser"
 import { api } from "../../../convex/_generated/api"
-import { redirect } from "next/navigation"
 import ProPlanView from "./_components/ProPlanView"
 import NavigationHeader from "@/components/NavigationHeader"
 import { ENTERPRISE_FEATURES, FEATURES } from "./_constants"
@@ -9,8 +8,9 @@ import { Star } from "lucide-react"
 import { SignedIn, SignedOut } from "@clerk/nextjs"
 import FeatureCategory from "./_components/FeatureCategory"
 import FeatureItem from "./_components/FeatureItem"
-import UpgradeButton from "./_components/UpgradeButton"
 import LoginButton from "@/components/LoginButton"
+import CheckOut from "./_components/CheckOut"
+import PricingInfo from "./_components/PricingInfo"
 
 async function PricingPage() {
   const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
@@ -92,13 +92,13 @@ async function PricingPage() {
                     <span className="text-2xl text-gray-400">$</span>
 
                     <span className="text-6xl font-semibold bg-gradient-to-r from-gray-100 to-gray-300 text-transparent bg-clip-text">
-                      39
+                      0
                     </span>
 
                     <span className="text-xl text-gray-400">one-time</span>
                   </div>
 
-                  <p className="text-gray-400 text-lg">Unlock the full potential of CodeCraft</p>
+                  <p className="text-gray-400 text-lg">Unlock the full potential of Ezitor</p>
                 </div>
 
                 {/* Features grid */}
@@ -131,7 +131,7 @@ async function PricingPage() {
                 {/* CTA */}
                 <div className="flex justify-center">
                   <SignedIn>
-                    <UpgradeButton />
+                    <CheckOut/>
                   </SignedIn>
 
                   <SignedOut>
@@ -143,6 +143,8 @@ async function PricingPage() {
           </div>
         </div>
       </main>
+      
+      <PricingInfo/>
     </div>
   )
 }

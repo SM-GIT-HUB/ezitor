@@ -56,6 +56,11 @@ export interface CodeEditorState {
   resetOutput: () => void;
 }
 
+export interface PricingModalState {
+  modalOpen: boolean;
+  setModalOpen: (value: boolean) => void;
+}
+
 export interface Snippet {
   _id: Id<"snippets">;
   _creationTime: number;
