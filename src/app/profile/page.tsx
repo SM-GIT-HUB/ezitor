@@ -31,6 +31,11 @@ const TABS = [
 function ProfilePage() {
   const { user, isLoaded } = useUser();
   const router = useRouter();
+
+  if (!user && isLoaded) {
+    router.push('/');
+  }
+
   const [activeTab, setActiveTab] = useState<"executions" | "starred">("executions");
 
   const userStats = useQuery(api.users.getUserStats, { userId: user?.id ?? "" });
@@ -50,10 +55,6 @@ function ProfilePage() {
     if (executionStatus == "CanLoadMore") {
       loadMore(5);
     }
-  }
-  
-  if (!user && isLoaded) {
-    router.push('/');
   }
 
   return (

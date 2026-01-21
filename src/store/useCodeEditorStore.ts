@@ -104,6 +104,16 @@ export const useCodeEditorStore = create<CodeEditorState>((set, get) => {
 
                 const data = await response.json();
 
+                if (data.run.signal == "SIGKILL")
+                {
+                    set({
+                        error: "Segmentation fault",
+                        executionResult: { code, output : "", error: "Segmentation fault" }
+                    })
+
+                    return;
+                }
+
                 if (data.message)
                 {
                     set({ error: data.message, executionResult: { code, output: "", error: data.message } });
@@ -134,7 +144,7 @@ export const useCodeEditorStore = create<CodeEditorState>((set, get) => {
                     return;
                 }
 
-                const output = data.run.output || data.compile.output;
+                const output = data.run?.output || data.compile?.output || "Program didn't output anything";
 
                 set({
                     output: output.trim(),
@@ -147,7 +157,6 @@ export const useCodeEditorStore = create<CodeEditorState>((set, get) => {
                     error: "Error running code",
                     executionResult: { code, output: "", error: "Error running code" }
                 })
-                console.log("error in runcode store", err.message);
             }
             finally {
                 set({ isRunning: false });
